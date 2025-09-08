@@ -21,6 +21,8 @@ int gridRows;
 int gridColumns;
 std::vector<std::vector<std::vector<int>>>grid;
 
+float fps;
+
 std::vector<Ball> balls;
 
 //inits
@@ -64,8 +66,8 @@ void bounceBalls(int indexA, int indexB);
 
 //accessors
 bool running();
-
-
+float getFPS() const { return fps; }
+void setFPS(float value) { fps = value; }
 
 };
 

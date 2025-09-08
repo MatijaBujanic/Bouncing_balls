@@ -27,6 +27,7 @@ void Game::render()
     renderBalls();
 
     this->window->display();
+    
 }
 
 void Game::pollEvents()
@@ -47,6 +48,9 @@ void Game::procesKey(const sf::Event::KeyPressed* keyPressed)
 {
     if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
         this->window->close();
+
+    if (keyPressed->scancode == sf::Keyboard::Scancode::F)
+        std::cout<<"FPS: "<<fps<<"\n";
 
 }
 
@@ -129,7 +133,10 @@ void Game::updateGrid()
     for (size_t i= 0; i < balls.size(); i++) {
         int cellX = balls[i].ball.getPosition().x / cellSize;
         int cellY = balls[i].ball.getPosition().y / cellSize;
-        grid[cellX][cellY].push_back(i);
+
+        if (cellX >= 0 && cellX < gridRows && cellY >= 0 && cellY < gridColumns) {
+            grid[cellX][cellY].push_back(i);
+        }
     
     }
 }
@@ -138,17 +145,23 @@ void Game::checkNeighbours(int x, int y)
 {
     int dxy[9][2]={{0,0},{1,0},{0,1},{-1,0},{0,-1}
                   ,{1,1},{-1,1},{-1,1},{-1,-1}};
-    for(size_t m_i=0; m_i<grid[x][y].size(); m_i++){
+    for(size_t m_i=0; m_i<grid[x][y].size(); m_i++)
+    {
         int mainBallIndex=grid[x][y][m_i];
-        for(int i=0;i<9;i++){
+
+        for(int i=0;i<9;i++)
+        {
             int nx=x+dxy[i][0],ny=y+dxy[i][1];
-            if(nx<0 or nx>gridRows or ny<0 or ny>gridColumns)continue;
+             if(nx < 0 || nx >= gridRows || ny < 0 || ny >= gridColumns) continue;
             
-            for(size_t s_i=0;s_i<grid[nx][ny].size();s_i++){
+            for(size_t s_i=0;s_i<grid[nx][ny].size();s_i++)
+            {
                 int secondaryBallIndex=grid[nx][ny][s_i];
+
                 if(mainBallIndex==secondaryBallIndex)continue;
 
-                if(checkColiding(balls[mainBallIndex],balls[secondaryBallIndex])){
+                if(checkColiding(balls[mainBallIndex],balls[secondaryBallIndex]))
+                {
                     bounceBalls(mainBallIndex,secondaryBallIndex);
                 } 
             }
@@ -210,13 +223,11 @@ void Game::initWindow()
 
 void Game::initGrid()
 {
-    for(int i=0;i<gridRows;i++)
-    {   
-        grid.push_back({});
-        for(int j=0;j<gridColumns;j++)
-        {
-            grid[i].push_back({});
-        }
+    grid.clear(); 
+    grid.resize(gridRows); 
+    
+    for(int i = 0; i < gridRows; i++) {   
+        grid[i].resize(gridColumns); 
     }
 }
 
@@ -224,8 +235,9 @@ void Game::initVariables()
 {
     mouseHeld=false;
     cellSize=50.f;
-    gridRows=videoMode.size.x/cellSize +1;
-    gridColumns=videoMode.size.y/cellSize +1;
+    gridRows=videoMode.size.x/cellSize +2;
+    gridColumns=videoMode.size.y/cellSize +2;
+    
 }
 
 
