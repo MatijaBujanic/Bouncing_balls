@@ -199,6 +199,25 @@ void Game::bounceBalls(int indexA, int indexB)
     balls[indexA].velocity-=velAlongNormal * normal;
     balls[indexB].velocity+=velAlongNormal * normal;
 
+    changeColor(indexA,indexB);
+}
+
+void Game::changeColor(int indexA, int indexB)
+{
+    uint8_t r=balls[indexA].rValue,
+            g=balls[indexA].gValue,
+            b=balls[indexA].bValue;
+
+    balls[indexA].rValue-=balls[indexB].rValue;
+    balls[indexA].gValue-=balls[indexB].gValue;
+    balls[indexA].bValue-=balls[indexB].bValue;
+
+    balls[indexB].rValue+=r;balls[indexB].gValue+=g;balls[indexB].bValue+=b;
+
+    balls[indexA].ball.setFillColor(
+        sf::Color{balls[indexA].rValue, balls[indexA].gValue, balls[indexA].bValue});
+    balls[indexB].ball.setFillColor(
+        sf::Color{balls[indexB].rValue, balls[indexB].gValue, balls[indexB].bValue});
 }
 
 bool Game::running()

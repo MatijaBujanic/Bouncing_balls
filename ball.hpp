@@ -17,6 +17,9 @@ sf::CircleShape ball;
 float radius;    
 sf::Vector2f cords;
 sf::Vector2f velocity;
+uint8_t rValue;
+uint8_t gValue;
+uint8_t bValue;
 
 
 

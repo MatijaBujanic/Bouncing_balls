@@ -63,6 +63,7 @@ void updateGrid();
 void checkNeighbours(int x, int y);
 void checkCollisions();
 void bounceBalls(int indexA, int indexB);
+void changeColor(int indexA, int indexB);
 
 //accessors
 bool running();

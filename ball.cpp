@@ -16,9 +16,9 @@ void Ball::initBall()
     ball.setRadius(this->radius);
     ball.setPosition(this->cords);
 
-    uint8_t rValue = rand() % 256;
-    uint8_t gValue = rand() % 256;
-    uint8_t bValue = rand() % 256;
+    rValue = rand() % 256;
+    gValue = rand() % 256;
+    bValue = rand() % 256;
 
     ball.setFillColor(sf::Color{rValue, gValue, bValue});
 }
