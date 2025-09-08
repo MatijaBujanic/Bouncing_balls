@@ -76,8 +76,6 @@ void Game::checkClick()
     }
 }
 
-
-
 bool Game::colides(sf::Vector2f mPosView)
 {
     for(auto &b : this->balls)
@@ -135,7 +133,6 @@ void Game::updateGrid()
     
     }
 }
-
 
 void Game::checkNeighbours(int x, int y)
 {
@@ -201,7 +198,7 @@ void Game::initWindow()
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
     this->videoMode.size={1000,800};
-    this->window = new sf::RenderWindow(sf::VideoMode(this->videoMode),"Kruzici2",sf::Style::Titlebar | sf::Style::Close);
+    this->window = new sf::RenderWindow(sf::VideoMode(this->videoMode),"Bouncing_balls",sf::Style::Titlebar | sf::Style::Close);
     
     this->window->setPosition({
         (int)((desktop.size.x - this->videoMode.size.x) / 2),
