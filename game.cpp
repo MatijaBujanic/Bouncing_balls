@@ -125,11 +125,12 @@ void Game::moveBalls()
 void Game::updateGrid()
 {
     //grid.clear();
-    for(size_t i=0; i<grid.size();i++){
-        for(size_t j=0;j<grid[i].size();j++){
-            grid[i][j].clear();
+    for(auto& row : grid) {
+        for(auto& cell : row) {
+            cell.clear();
         }
     }
+
     for (size_t i= 0; i < balls.size(); i++) {
         int cellX = balls[i].ball.getPosition().x / cellSize;
         int cellY = balls[i].ball.getPosition().y / cellSize;
@@ -144,7 +145,10 @@ void Game::updateGrid()
 void Game::checkNeighbours(int x, int y)
 {
     int dxy[9][2]={{0,0},{1,0},{0,1},{-1,0},{0,-1}
-                  ,{1,1},{-1,1},{-1,1},{-1,-1}};
+                  ,{1,1},{1,-1},{-1,1},{-1,-1}};
+    
+    //int dxy[4][2] = {{1,0}, {0,1}, {1,1}, {1,-1}};
+
     for(size_t m_i=0; m_i<grid[x][y].size(); m_i++)
     {
         int mainBallIndex=grid[x][y][m_i];
@@ -173,7 +177,10 @@ void Game::checkCollisions(){
     for(size_t i=0;i<grid.size(); i++){
         for(size_t j=0;j<grid[i].size();j++){
 
-            checkNeighbours(i,j);
+            if(!grid[i][j].empty())
+            {
+                checkNeighbours(i, j);
+            }
 
         }
     }
@@ -220,6 +227,7 @@ void Game::changeColor(int indexA, int indexB)
         sf::Color{balls[indexB].rValue, balls[indexB].gValue, balls[indexB].bValue});
 }
 
+
 bool Game::running()
 {
     return this->window->isOpen();
@@ -256,7 +264,7 @@ void Game::initVariables()
     cellSize=50.f;
     gridRows=videoMode.size.x/cellSize +2;
     gridColumns=videoMode.size.y/cellSize +2;
-    
+    balls.reserve(1000);
 }
 
 

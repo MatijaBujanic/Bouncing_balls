@@ -6,7 +6,7 @@
 OUTPUT="game"                       # Name of final executable
 BUILD_DIR="build"                   # Where .o files go
 CXX=g++                             # Compiler
-CXXFLAGS="-std=c++26 -Wall -Wextra -O2"   # Compile flags
+CXXFLAGS="-std=c++26 -Wall -Wextra -O3 -march=native -mtune=native -flto"   # Compile flags
 LIBS="-lsfml-system -lsfml-audio -lsfml-window -lsfml-graphics -lsfml-network"  # SFML libraries
 
 # ========================

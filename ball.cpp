@@ -14,6 +14,7 @@ Ball::~Ball(){
 void Ball::initBall()
 {
     ball.setRadius(this->radius);
+    ball.setOutlineThickness(1);
     ball.setPosition(this->cords);
 
     rValue = rand() % 256;
@@ -25,7 +26,7 @@ void Ball::initBall()
 
 void Ball::updatePos()
 {
-    
+
     this->cords.x += this->velocity.x;
     this->cords.y += this->velocity.y;
     
