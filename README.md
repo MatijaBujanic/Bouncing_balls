@@ -20,7 +20,7 @@ To build game build with the given build script in terminal with:
 ```
 ## RUNNING
 You can run with the aformentioned build command.\
-Prebuilt executables for windows and linux in the **"Executables"** folder.\
+Prebuilt executables for windows and linux in the **"Executables"** folder.
 
 ## INSTRUCTIONS
 - left click to add ball
