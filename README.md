@@ -28,3 +28,4 @@ Prebuilt executables for windows and linux in the **"Executables"** folder.\
 - (if run from terminal) press f to show fps 
 
 ## DEMONSTRATION
+![bouncingBallSmallerSize](https://github.com/user-attachments/assets/082ccd8b-fc01-40e5-a9ed-9e3c2332563b)
