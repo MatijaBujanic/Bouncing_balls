@@ -13,11 +13,15 @@ Game::~Game(){
 
 void Game::update()
 {
+    dt = dtClock.restart().asSeconds();  
+
     pollEvents();
     updateMousePos();
-    updateGrid();
     checkClick();
+
     moveBalls();
+    updateGrid();
+    checkCollisions();
 }
 
 void Game::render()
@@ -51,6 +55,12 @@ void Game::procesKey(const sf::Event::KeyPressed* keyPressed)
 
     if (keyPressed->scancode == sf::Keyboard::Scancode::F)
         std::cout<<"FPS: "<<fps<<"\n";
+     if (keyPressed->scancode == sf::Keyboard::Scancode::G){
+        if(gravity!=0)gravity=0;
+        else gravity=75.f;
+        updateGrav();
+     }
+        
 
 }
 
@@ -100,7 +110,7 @@ void Game::spawnBall(sf::Vector2f mPosView)
     if (velY==0) rand()%2==0 ? velY+=1 : velY-=1; 
 
     float offset = rand()%10 -5;
-    Ball newBall(20.f + offset,mPosView,{velX,velY});
+    Ball newBall(20.f + offset,mPosView,{velX*100,velY*100},this->gravity);
     balls.push_back(newBall);
 }
 
@@ -117,8 +127,9 @@ void Game::moveBalls()
 {
     for(auto &b : balls){
         b.checkEdge(videoMode);
-        checkCollisions();
-        b.updatePos();
+        b.updatePos(dt);
+        
+        //checkCollisions();
     }
 }
 
@@ -139,6 +150,13 @@ void Game::updateGrid()
             grid[cellX][cellY].push_back(i);
         }
     
+    }
+}
+
+void Game::updateGrav()
+{
+    for(size_t i=0;i<balls.size();i++){
+        balls[i].individualGravity=gravity;
     }
 }
 
@@ -262,6 +280,7 @@ void Game::initVariables()
 {
     mouseHeld=false;
     cellSize=50.f;
+    this->gravity=75.f;
     gridRows=videoMode.size.x/cellSize +2;
     gridColumns=videoMode.size.y/cellSize +2;
     balls.reserve(1000);

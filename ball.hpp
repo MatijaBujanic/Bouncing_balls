@@ -4,8 +4,6 @@
 #include"includes.hpp"
 
 
-
-
 class Ball{
 
 private:
@@ -17,6 +15,8 @@ sf::CircleShape ball;
 float radius;    
 sf::Vector2f cords;
 sf::Vector2f velocity;
+float individualGravity;
+
 uint8_t rValue;
 uint8_t gValue;
 uint8_t bValue;
@@ -24,13 +24,13 @@ uint8_t bValue;
 
 
 //Constructors
-Ball(float radius, sf::Vector2f cords, sf::Vector2f velocity);
+Ball(float radius, sf::Vector2f cords, sf::Vector2f velocity, float grav);
 ~Ball();
 
 //movement
-void updatePos();
+void updatePos(float dt);
+void applyGrav();
 void checkEdge(sf::VideoMode videoMode);
-
 
 };
 

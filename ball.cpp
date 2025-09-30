@@ -1,8 +1,7 @@
 #include"ball.hpp"
 
-
-Ball::Ball(float radius, sf::Vector2f cords, sf::Vector2f velocity)
-    : radius(radius), cords(cords), velocity(velocity){
+Ball::Ball(float radius, sf::Vector2f cords, sf::Vector2f velocity, float grav)
+    : radius(radius), cords(cords), velocity(velocity), individualGravity(grav){
 
 
     initBall();
@@ -24,24 +23,33 @@ void Ball::initBall()
     ball.setFillColor(sf::Color{rValue, gValue, bValue});
 }
 
-void Ball::updatePos()
+void Ball::updatePos(float dt)
 {
-
-    this->cords.x += this->velocity.x;
-    this->cords.y += this->velocity.y;
     
 
-    ball.move(velocity);
+    velocity.y += individualGravity * dt;
+
+    ball.move(velocity * dt);
+
+    cords = ball.getPosition();
+
+}
+
+void Ball::applyGrav()
+{
+    this->velocity.y+=individualGravity;
 }
 
 void Ball::checkEdge(sf::VideoMode videoMode)
 {
-    if(this->cords.x<=0 or this->cords.x + this->radius*2 > videoMode.size.x ){
+    if(this->cords.x<=0 or this->cords.x + this->radius*2 >= videoMode.size.x ){
         this->velocity.x*=-1;
     }
-    if(this->cords.y<=0 or this->cords.y + this->radius*2 > videoMode.size.y ){
+    if(this->cords.y<=0 or this->cords.y + this->radius*2 >= videoMode.size.y ){
         this->velocity.y*=-1;
+        return;
     }
+    if(individualGravity!=0) applyGrav();
 }
 
 bool checkColiding(Ball &b1, Ball &b2)

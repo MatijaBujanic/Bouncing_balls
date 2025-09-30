@@ -10,6 +10,10 @@ private:
 sf::RenderWindow *window;
 sf::VideoMode videoMode;
 
+//Delta time
+sf::Clock dtClock;
+float dt;
+
 //Mouse positions
 sf::Vector2i mousePosWindow;
 sf::Vector2f mousePosView;    
@@ -20,6 +24,8 @@ float cellSize;
 int gridRows;
 int gridColumns;
 std::vector<std::vector<std::vector<int>>>grid;
+
+float gravity;
 
 float fps;
 
@@ -60,6 +66,7 @@ void renderBalls();
 //
 void moveBalls();
 void updateGrid();
+void updateGrav();
 void checkNeighbours(int x, int y);
 void checkCollisions();
 void bounceBalls(int indexA, int indexB);
