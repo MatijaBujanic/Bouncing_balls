@@ -15,9 +15,12 @@ void Game::update()
 {
     dt = dtClock.restart().asSeconds();  
 
-    pollEvents();
-    updateMousePos();
-    checkClick();
+    if(window->hasFocus()){
+        pollEvents();
+        updateMousePos();
+        checkClick();
+    }
+
 
     if(!paused){
         moveBalls();
