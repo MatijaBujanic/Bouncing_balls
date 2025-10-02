@@ -19,9 +19,11 @@ void Game::update()
     updateMousePos();
     checkClick();
 
-    moveBalls();
-    updateGrid();
-    checkCollisions();
+    if(!paused){
+        moveBalls();
+        updateGrid();
+        checkCollisions();
+    }
 }
 
 void Game::render()
@@ -60,6 +62,8 @@ void Game::procesKey(const sf::Event::KeyPressed* keyPressed)
         else gravity=75.f;
         updateGrav();
      }
+     if (keyPressed->scancode == sf::Keyboard::Scancode::P)
+        paused=!paused;
         
 
 }
@@ -280,6 +284,7 @@ void Game::initVariables()
 {
     mouseHeld=false;
     cellSize=50.f;
+    this->paused=false;
     this->gravity=75.f;
     gridRows=videoMode.size.x/cellSize +2;
     gridColumns=videoMode.size.y/cellSize +2;

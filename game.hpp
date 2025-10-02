@@ -28,6 +28,7 @@ std::vector<std::vector<std::vector<int>>>grid;
 float gravity;
 
 float fps;
+bool paused;
 
 std::vector<Ball> balls;
 
