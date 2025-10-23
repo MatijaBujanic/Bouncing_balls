@@ -1,71 +1,59 @@
-#include"ball.hpp"
+#include "ball.hpp"
 
 Ball::Ball(float radius, sf::Vector2f cords, sf::Vector2f velocity, float grav)
-    : radius(radius), cords(cords), velocity(velocity), individualGravity(grav){
+    : radius(radius), cords(cords), velocity(velocity),
+      individualGravity(grav) {
 
-
-    initBall();
+  initBall();
 }
 
-Ball::~Ball(){
-    
-}
-void Ball::initBall()
-{
-    ball.setRadius(this->radius);
-    ball.setOutlineThickness(1);
-    ball.setPosition(this->cords);
+Ball::~Ball() {}
+void Ball::initBall() {
+  ball.setRadius(this->radius);
+  ball.setOutlineThickness(1);
+  ball.setPosition(this->cords);
 
-    rValue = rand() % 256;
-    gValue = rand() % 256;
-    bValue = rand() % 256;
+  rValue = rand() % 256;
+  gValue = rand() % 256;
+  bValue = rand() % 256;
 
-    ball.setFillColor(sf::Color{rValue, gValue, bValue});
+  ball.setFillColor(sf::Color{rValue, gValue, bValue});
 }
 
-void Ball::updatePos(float dt)
-{
-    
+void Ball::updatePos(float dt) {
 
-    velocity.y += individualGravity * dt;
+  velocity.y += individualGravity * dt;
 
-    ball.move(velocity * dt);
+  ball.move(velocity * dt);
 
-    cords = ball.getPosition();
-
+  cords = ball.getPosition();
 }
 
-void Ball::applyGrav()
-{
-    this->velocity.y+=individualGravity;
+void Ball::applyGrav() { this->velocity.y += individualGravity; }
+
+void Ball::checkEdge(sf::VideoMode videoMode) {
+  if (this->cords.x <= 0 or
+      this->cords.x + this->radius * 2 >= videoMode.size.x) {
+    this->velocity.x *= -1;
+  }
+  if (this->cords.y <= 0 or
+      this->cords.y + this->radius * 2 >= videoMode.size.y) {
+    this->velocity.y *= -1;
+    return;
+  }
+  if (individualGravity != 0)
+    applyGrav();
 }
 
-void Ball::checkEdge(sf::VideoMode videoMode)
-{
-    if(this->cords.x<=0 or this->cords.x + this->radius*2 >= videoMode.size.x ){
-        this->velocity.x*=-1;
-    }
-    if(this->cords.y<=0 or this->cords.y + this->radius*2 >= videoMode.size.y ){
-        this->velocity.y*=-1;
-        return;
-    }
-    if(individualGravity!=0) applyGrav();
+bool checkColiding(Ball &b1, Ball &b2) {
+  sf::Vector2f centerB1 = {b1.cords.x + b1.radius, b1.cords.y + b1.radius};
+  sf::Vector2f centerB2 = {b2.cords.x + b2.radius, b2.cords.y + b2.radius};
+
+  float dx = centerB1.x - centerB2.x;
+  float dy = centerB1.y - centerB2.y;
+  float distanceSquared = dx * dx + dy * dy;
+
+  float radiusSum = b1.radius + b2.radius;
+
+  return distanceSquared <= (radiusSum * radiusSum);
 }
-
-bool checkColiding(Ball &b1, Ball &b2)
-{
-    sf::Vector2f centerB1 = {b1.cords.x+b1.radius, b1.cords.y+b1.radius};
-    sf::Vector2f centerB2 = {b2.cords.x+b2.radius, b2.cords.y+b2.radius};
-
-    float dx=centerB1.x-centerB2.x;
-    float dy=centerB1.y-centerB2.y;
-    float distanceSquared = dx * dx + dy * dy;
-
-    float radiusSum = b1.radius+b2.radius;
-
-    return distanceSquared <= (radiusSum * radiusSum);
-}
-
-
-
-
